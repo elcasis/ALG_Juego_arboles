@@ -59,7 +59,6 @@
         .toast-info{background:rgba(34,211,238,0.1);border:1px solid rgba(34,211,238,0.25);color:#22d3ee}
         .info-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.1);border-radius:8px;padding:4px 10px;font-size:.75rem;color:var(--muted)}
         .info-badge .v{font-weight:700}
-        .visit-pill{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);border:1px solid var(--border);padding:4px 12px;border-radius:20px;background:rgba(10,14,24,0.4);margin-top:12px;display:inline-flex;align-items:center;gap:6px}
         .palette-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px 16px;background:rgba(10,14,24,0.5);border:1px solid var(--border);border-radius:14px}
         .token-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:10px;cursor:pointer;border:1.5px solid var(--border);background:transparent;font-family:'JetBrains Mono',monospace;font-size:.88rem;font-weight:600;transition:all .2s}
         .token-chip:hover{border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.03)}
@@ -110,12 +109,11 @@
                 <span class="text-xs font-semibold text-[var(--muted)] uppercase tracking-[0.15em]">Constructor y Recorridos</span>
             </div>
             <h1 class="text-3xl md:text-4xl font-[900] tracking-tight mb-2">
-                Desafio de <span style="color:var(--accent)">Arboles 2</span>
+                Desafio de <span style="color:var(--accent)">Arboles</span>
             </h1>
             <p class="text-[var(--muted)] text-sm md:text-base max-w-lg mx-auto leading-relaxed">
                 Construye el arbol binario y demuestra que dominas sus recorridos.
             </p>
-            <div class="visit-pill"><i class="fas fa-eye text-[0.6rem]" style="color:var(--hl)"></i><span>VISITAS:</span><span id="vCnt" style="color:var(--hl);font-weight:700;">---</span></div>
         </header>
 
         <div class="flex justify-center gap-2 mb-5" role="radiogroup" aria-label="Dificultad">
@@ -436,9 +434,7 @@ function doGen(){
     document.getElementById('paletteWrap').style.display='';document.getElementById('canvasTools').style.display='';document.getElementById('cvsWrap').style.display='';document.getElementById('instrPanel').style.display='';enableBuilder();
     builderNodes=[];nextBId=0;selectedId=null;connectFromId=null;placingVal=null;toolMode='select';travPhase='pre';
     setupPalette(exprTree);updateToolbar();sizeCanvas();draw();updateNodeCount();
-    // Asegurarse de que los botones de recorrido están visibles para la próxima fase
-    document.getElementById('bTravCheck').style.display='';
-    document.getElementById('bTravSol').style.display='';
+    document.getElementById('bTravCheck').style.display='';document.getElementById('bTravSol').style.display='';
 }
 
 function doNext(){if(tmrID)stopTmr();doGen();}
@@ -450,14 +446,11 @@ function toast(m,type){const el=document.getElementById('toast');el.textContent=
  $bg.addEventListener('click',doGen);$bCheck.addEventListener('click',doVerify);$bSol.addEventListener('click',doShowSolution);
  $bClear.addEventListener('click',()=>{if(state==='building')clearBuilder();});$bn.addEventListener('click',doNext);
 
-// Al hacer clic en una dificultad, se reinicia el juego inmediatamente con esa dificultad
 document.querySelectorAll('.diff-pill').forEach(b=>{
     b.addEventListener('click',()=>{
-        const newDiff=b.dataset.d;
-        diff=newDiff;
+        const newDiff=b.dataset.d;diff=newDiff;
         document.querySelectorAll('.diff-pill').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-checked','false');});
-        b.classList.add('active');b.setAttribute('aria-checked','true');
-        doGen(); // Genera una nueva partida inmediatamente
+        b.classList.add('active');b.setAttribute('aria-checked','true');doGen();
     });
 });
 
@@ -473,10 +466,8 @@ document.addEventListener('keydown',e=>{
 
 let rszT;window.addEventListener('resize',()=>{clearTimeout(rszT);rszT=setTimeout(()=>{sizeCanvas();draw();},150);});
 
-async function updateVisitCount(){try{const r=await fetch('https://api.countapi.xyz/hit/desafio-arboles-unir/v1');const d=await r.json();document.getElementById('vCnt').textContent=d.value.toLocaleString();}catch(e){let v=parseInt(localStorage.getItem('vCnt_fallback')||'0');v++;localStorage.setItem('vCnt_fallback',v);document.getElementById('vCnt').textContent=v;}}
-
 /* ========== INIT ========== */
-sizeCanvas();updSt();updateVisitCount();
+sizeCanvas();updSt();
 </script>
 </body>
 </html>
