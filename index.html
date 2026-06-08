@@ -79,22 +79,116 @@
         .instr-panel strong{color:var(--fg);font-weight:600}
         .instr-panel kbd{display:inline-block;padding:1px 6px;border-radius:4px;border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.7rem;background:rgba(255,255,255,0.03)}
         .trav-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;backdrop-filter:blur(12px)}
-        .trav-steps{display:flex;gap:12px;justify-content:center;margin-bottom:20px}
+        .trav-steps{display:flex;gap:12px;justify-content:center;margin-bottom:20px;flex-wrap:wrap}
         .trav-step{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;border:1px solid var(--border);background:transparent;font-size:.85rem;font-weight:600;color:var(--muted);transition:all .3s}
         .trav-step.active{border-color:var(--hl);color:var(--hl);background:rgba(34,211,238,0.06)}
         .trav-step.done{border-color:var(--ok);color:var(--ok);background:rgba(34,197,94,0.06)}
         .trav-step i{font-size:.75rem}
-        .trav-input-wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
-        .trav-input{background:rgba(6,9,16,0.8);border:1.5px solid var(--border);border-radius:10px;padding:12px 18px;color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:1rem;flex:1;min-width:200px;transition:border-color .3s}
-        .trav-input:focus{outline:none;border-color:var(--hl)}
-        .trav-input.correct{border-color:var(--ok);background:rgba(34,197,94,0.05)}
-        .trav-input.wrong{border-color:var(--err);background:rgba(239,68,68,0.05)}
+
+        /* ===== NUEVO: Sistema de botones para Fase 2 ===== */
+        .trav-sequence-area{
+            background:rgba(6,9,16,0.7);
+            border:1.5px solid var(--border);
+            border-radius:14px;
+            padding:14px 18px;
+            min-height:58px;
+            display:flex;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:6px;
+            margin-bottom:12px;
+            position:relative;
+            transition:border-color .3s;
+        }
+        .trav-sequence-area.correct{border-color:var(--ok);background:rgba(34,197,94,0.04);}
+        .trav-sequence-area.wrong{border-color:var(--err);background:rgba(239,68,68,0.04);}
+        .trav-seq-placeholder{color:var(--muted);font-size:.82rem;font-style:italic;font-family:'JetBrains Mono',monospace;}
+        .trav-seq-token{
+            display:inline-flex;align-items:center;justify-content:center;
+            padding:5px 12px;
+            border-radius:8px;
+            font-family:'JetBrains Mono',monospace;
+            font-size:.9rem;
+            font-weight:700;
+            animation:tokenPop .2s cubic-bezier(.34,1.56,.64,1);
+            cursor:pointer;
+            transition:opacity .2s,transform .2s;
+            user-select:none;
+        }
+        .trav-seq-token:hover{opacity:.7;transform:scale(.94);}
+        @keyframes tokenPop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+        .trav-seq-arrow{
+            font-family:'JetBrains Mono',monospace;
+            font-size:.75rem;
+            color:var(--muted);
+            opacity:.4;
+            margin:0 1px;
+        }
+        .trav-token-btns{
+            display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+            padding:12px 16px;
+            background:rgba(10,14,24,0.5);
+            border:1px solid var(--border);
+            border-radius:14px;
+            margin-bottom:12px;
+        }
+        .trav-tok-btn{
+            display:inline-flex;align-items:center;justify-content:center;
+            padding:9px 18px;
+            border-radius:11px;
+            cursor:pointer;
+            border:2px solid;
+            background:transparent;
+            font-family:'JetBrains Mono',monospace;
+            font-size:1rem;
+            font-weight:700;
+            transition:all .18s;
+            min-width:44px;
+        }
+        .trav-tok-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.3);}
+        .trav-tok-btn:active{transform:scale(.93);}
+        .trav-action-row{
+            display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap;
+        }
+        .trav-count-badge{
+            font-size:.7rem;
+            font-weight:700;
+            color:var(--muted);
+            background:rgba(255,255,255,0.05);
+            border-radius:5px;
+            padding:1px 5px;
+            margin-left:4px;
+        }
+        /* ===== FASE 3: PROPIEDADES ===== */
+        .prop-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;backdrop-filter:blur(12px)}
+        .prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:16px}
+        .prop-card{background:rgba(6,9,16,0.7);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;transition:border-color .3s,background .3s}
+        .prop-card.active{border-color:var(--hl);background:rgba(34,211,238,0.04)}
+        .prop-card.correct{border-color:var(--ok);background:rgba(34,197,94,0.05)}
+        .prop-card.wrong{border-color:var(--err);background:rgba(239,68,68,0.05)}
+        .prop-card.solved{border-color:rgba(34,197,94,0.3);background:rgba(34,197,94,0.04);opacity:.75}
+        .prop-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin-bottom:6px}
+        .prop-display{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;min-height:34px;color:var(--hl);letter-spacing:2px}
+        .prop-display.empty{color:var(--muted);font-size:.9rem;font-style:italic;font-weight:400}
+        .prop-display.correct{color:var(--ok)}
+        .prop-display.wrong{color:var(--err)}
+        .numpad{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:320px;margin:0 auto 16px}
+        .numpad-btn{padding:12px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;border:1.5px solid var(--border);background:rgba(10,14,24,0.6);color:var(--fg);cursor:pointer;transition:all .18s;text-align:center}
+        .numpad-btn:hover{border-color:var(--hl);color:var(--hl);background:rgba(34,211,238,0.06);transform:translateY(-2px)}
+        .numpad-btn:active{transform:scale(.93)}
+        .numpad-btn.del{color:var(--err);border-color:rgba(239,68,68,0.2)}
+        .numpad-btn.del:hover{border-color:var(--err);background:rgba(239,68,68,0.07)}
+        .numpad-btn.wide{grid-column:span 2}
+        .prop-progress{display:flex;gap:6px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+        .prop-pip{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background .3s,transform .3s}
+        .prop-pip.active{background:var(--hl);transform:scale(1.2)}
+        .prop-pip.done{background:var(--ok)}
         @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
         .shake{animation:shake .4s ease-in-out}
         @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
         .confetti{position:fixed;top:0;z-index:1000;pointer-events:none;width:8px;height:8px;border-radius:2px;animation:confettiFall 2.5s ease-in forwards}
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-        @media(max-width:640px){.expr-text{font-size:1.15rem;letter-spacing:1px}.expr-card{padding:16px 14px}.token-chip{padding:5px 10px;font-size:.78rem}.canvas-toolbar{gap:4px;padding:6px 8px}.tb-btn{padding:5px 8px;font-size:.72rem}.btn-p,.btn-s,.btn-d,.btn-ok{padding:10px 16px;font-size:.82rem}.trav-input{font-size:.88rem;padding:10px 14px}}
+        @media(max-width:640px){.expr-text{font-size:1.15rem;letter-spacing:1px}.expr-card{padding:16px 14px}.token-chip{padding:5px 10px;font-size:.78rem}.canvas-toolbar{gap:4px;padding:6px 8px}.tb-btn{padding:5px 8px;font-size:.72rem}.btn-p,.btn-s,.btn-d,.btn-ok{padding:10px 16px;font-size:.82rem}.trav-tok-btn{padding:8px 14px;font-size:.9rem}}
     </style>
 </head>
 <body>
@@ -131,7 +225,7 @@
         <div id="placeholder" class="ph">
             <i class="fas fa-sitemap"></i>
             <p class="text-sm">Pulsa <strong style="color:var(--accent)">Generar formula</strong> para comenzar</p>
-            <p class="text-xs mt-2 opacity-60">1. Construye el arbol &bull; 2. Escribe los recorridos</p>
+            <p class="text-xs mt-2 opacity-60">1. Construye el arbol &bull; 2. Pulsa los tokens para los recorridos</p>
         </div>
 
         <div class="expr-card mb-4" id="exprCard" style="display:none"><div class="expr-text" id="exprText"></div></div>
@@ -164,38 +258,89 @@
 
         <div class="cvs-wrap mb-4" id="cvsWrap" style="display:none"><canvas id="builderCanvas" height="520"></canvas></div>
 
-        <div id="instrPanel" style="display:none" class="instr-panel mb-5">
-            <div class="flex items-center justify-between mb-1">
-                <span class="text-xs font-semibold uppercase tracking-wider" style="color:var(--accent)"><i class="fas fa-info-circle mr-1"></i> Instrucciones</span>
-                <button id="instrToggle" class="text-xs text-[var(--muted)] hover:text-[var(--fg)] transition-colors cursor-pointer bg-transparent border-0"><i class="fas fa-chevron-up" id="instrIcon"></i></button>
-            </div>
-            <div id="instrBody">
-                <strong>1.</strong> Clic en un token, luego clic en el lienzo para colocarlo.<br>
-                <strong>2.</strong> Activa <kbd>Conectar</kbd>, clic en el padre y luego en el hijo.<br>
-                <strong>3.</strong> El hijo se asigna como <strong style="color:var(--op)">izquierdo</strong> o <strong style="color:var(--nm)">derecho</strong> segun su posicion horizontal.<br>
-                <strong>4.</strong> Arrastra nodos en modo <kbd>Mover</kbd>. Pulsa <kbd>Verificar arbol</kbd> al terminar.
-            </div>
-        </div>
 
-        <!-- Reto de Recorridos (Fase 2) -->
+        <!-- ===== FASE 2: RECORRIDOS CON BOTONES ===== -->
         <div id="travChallenge" style="display:none" class="trav-panel mb-5">
             <div class="text-center mb-4">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[rgba(6,9,16,0.5)] mb-3">
                     <i class="fas fa-route text-xs" style="color:var(--hl)"></i>
                     <span class="text-xs font-semibold text-[var(--muted)] uppercase tracking-widest">Fase 2: Recorridos</span>
                 </div>
-                <h3 class="text-lg font-bold" id="travTitle">Escribe el recorrido en Preorden (RLI)</h3>
-                <p class="text-xs text-[var(--muted)] mt-1" id="travHint">Separa los elementos con espacios. Ejemplo: + - a s + d g</p>
+                <h3 class="text-lg font-bold" id="travTitle">Construye el recorrido en Preorden (RLI)</h3>
+                <p class="text-xs text-[var(--muted)] mt-1" id="travHint">Pulsa los botones en el orden correcto: Raíz → Izquierda → Derecha</p>
             </div>
+
+            <!-- Secuencia construida -->
+            <div class="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider mb-2">
+                <i class="fas fa-list-ol mr-1"></i> Tu secuencia
+                <span id="travSeqCount" class="ml-2 font-normal normal-case" style="color:var(--muted)"></span>
+            </div>
+            <div class="trav-sequence-area" id="travSequenceArea">
+                <span class="trav-seq-placeholder" id="travSeqPlaceholder">Pulsa los tokens de abajo para añadirlos...</span>
+            </div>
+
+            <!-- Botones de tokens -->
+            <div class="text-xs font-semibold text-[var(--muted)] uppercase tracking-wider mb-2">
+                <i class="fas fa-th mr-1"></i> Tokens disponibles
+            </div>
+            <div class="trav-token-btns" id="travTokenBtns"></div>
+
+            <!-- Progreso recorridos -->
             <div class="trav-steps" id="travSteps">
                 <div class="trav-step active" id="stepPre"><i class="fas fa-circle"></i> Preorden</div>
                 <div class="trav-step" id="stepIn"><i class="fas fa-circle"></i> Inorden</div>
                 <div class="trav-step" id="stepPost"><i class="fas fa-circle"></i> Postorden</div>
             </div>
-            <div class="trav-input-wrap">
-                <input type="text" class="trav-input" id="travInput" autocomplete="off" spellcheck="false" placeholder="Escribe aqui el recorrido...">
+
+            <!-- Acciones -->
+            <div class="trav-action-row">
                 <button class="btn-ok" id="bTravCheck"><i class="fas fa-paper-plane mr-2"></i>Comprobar</button>
+                <button class="btn-d" id="bTravUndo" style="padding:11px 16px"><i class="fas fa-backspace mr-1"></i>Borrar último</button>
+                <button class="btn-d" id="bTravClearSeq" style="padding:11px 16px"><i class="fas fa-times mr-1"></i>Limpiar</button>
                 <button class="btn-s" id="bTravSol"><i class="fas fa-eye mr-2"></i>Ver solucion</button>
+            </div>
+        </div>
+
+        <!-- ===== FASE 3: PROPIEDADES DEL ÁRBOL ===== -->
+        <div id="fase3Challenge" style="display:none" class="prop-panel mb-5">
+            <div class="text-center mb-4">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border)] bg-[rgba(6,9,16,0.5)] mb-3">
+                    <i class="fas fa-calculator text-xs" style="color:var(--accent)"></i>
+                    <span class="text-xs font-semibold text-[var(--muted)] uppercase tracking-widest">Fase 3: Propiedades</span>
+                </div>
+                <h3 class="text-lg font-bold" id="propTitle">Calcula las propiedades del árbol</h3>
+                <p class="text-xs mt-1" id="propHint" style="color:var(--muted)">Selecciona una propiedad y usa el teclado para introducir el valor</p>
+            </div>
+
+            <!-- Progreso puntitos -->
+            <div class="prop-progress" id="propProgress"></div>
+
+            <!-- Tarjetas de propiedades -->
+            <div class="prop-grid" id="propGrid"></div>
+
+            <!-- Teclado numérico -->
+            <div class="numpad" id="numpad">
+                <button class="numpad-btn" data-n="7">7</button>
+                <button class="numpad-btn" data-n="8">8</button>
+                <button class="numpad-btn" data-n="9">9</button>
+                <button class="numpad-btn del" data-n="del"><i class="fas fa-backspace"></i></button>
+                <button class="numpad-btn" data-n="4">4</button>
+                <button class="numpad-btn" data-n="5">5</button>
+                <button class="numpad-btn" data-n="6">6</button>
+                <button class="numpad-btn del wide" data-n="clear" style="grid-column:span 1"><i class="fas fa-times"></i></button>
+                <button class="numpad-btn" data-n="1">1</button>
+                <button class="numpad-btn" data-n="2">2</button>
+                <button class="numpad-btn" data-n="3">3</button>
+                <button class="numpad-btn wide" data-n="ok" style="grid-column:span 1;background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.3);color:#22c55e"><i class="fas fa-check"></i></button>
+                <button class="numpad-btn wide" data-n="0" style="grid-column:span 2">0</button>
+                <button class="numpad-btn" data-n="sol" style="color:var(--accent);border-color:var(--accent-b)"><i class="fas fa-eye"></i></button>
+                <button class="numpad-btn" data-n="skip" style="color:var(--muted)"><i class="fas fa-forward"></i></button>
+            </div>
+
+            <div class="text-center text-xs mt-2" style="color:var(--muted)">
+                <i class="fas fa-hand-pointer mr-1"></i>Selecciona una tarjeta y escribe con el teclado &nbsp;·&nbsp;
+                <i class="fas fa-eye mr-1" style="color:var(--accent)"></i>Ver respuesta &nbsp;·&nbsp;
+                <i class="fas fa-forward mr-1"></i>Saltar
             </div>
         </div>
 
@@ -218,8 +363,7 @@
 
         <div class="text-center text-xs text-[var(--muted)] opacity-50">
             <kbd class="px-1.5 py-0.5 rounded border border-[var(--border)] text-[0.65rem]">Espacio</kbd> Generar &nbsp;
-            <kbd class="px-1.5 py-0.5 rounded border border-[var(--border)] text-[0.65rem]">Enter</kbd> Verificar &nbsp;
-            <kbd class="px-1.5 py-0.5 rounded border border-[var(--border)] text-[0.65rem]">Supr</kbd> Eliminar
+            <kbd class="px-1.5 py-0.5 rounded border border-[var(--border)] text-[0.65rem]">Supr</kbd> Eliminar nodo
         </div>
     </div>
 
@@ -317,9 +461,9 @@ cvs.addEventListener('pointerleave',()=>{ghostPos=null;if(placingVal)draw();});
 const $tbSel=document.getElementById('tbSelect'),$tbCon=document.getElementById('tbConnect'),$tbDel=document.getElementById('tbDelete');
 function updateToolbar(){$tbSel.classList.toggle('active',toolMode==='select');$tbCon.classList.toggle('active',toolMode==='connect');updateStatus();}
 function updateStatus(){const el=document.getElementById('statusText');if(!el)return;if(placingVal){el.textContent='Clic en el lienzo para colocar: '+placingVal.display;return;}if(toolMode==='connect'){if(connectFromId!==null){const n=getNodeById(connectFromId);el.textContent='Conectando desde "'+(n?n.value:'?')+'"... clic en el hijo';}else{el.textContent='Clic en el nodo padre para iniciar conexion';}}else{el.textContent='Arrastra nodos para moverlos. Selecciona un token para colocar.';}}
- $tbSel.addEventListener('click',()=>{toolMode='select';placingVal=null;connectFromId=null;updateToolbar();renderPalette();draw();});
- $tbCon.addEventListener('click',()=>{toolMode='connect';placingVal=null;connectFromId=null;updateToolbar();renderPalette();draw();});
- $tbDel.addEventListener('click',()=>{if(selectedId!==null)removeBNode(selectedId);});
+$tbSel.addEventListener('click',()=>{toolMode='select';placingVal=null;connectFromId=null;updateToolbar();renderPalette();draw();});
+$tbCon.addEventListener('click',()=>{toolMode='connect';placingVal=null;connectFromId=null;updateToolbar();renderPalette();draw();});
+$tbDel.addEventListener('click',()=>{if(selectedId!==null)removeBNode(selectedId);});
 
 /* ========== VERIFICACION ARBOL ========== */
 function buildUserTree(){const roots=builderNodes.filter(n=>n.parentId===null);if(roots.length!==1)return null;function build(id){const node=getNodeById(id);if(!node)return null;const isUnary=FUNCS.has(node.value)||node.value==='\u2212';if(isUnary){if(node.leftChild===null)return null;const left=build(node.leftChild);if(!left)return null;return{v:node.value,l:left,r:null,u:true};}if(node.leftChild===null&&node.rightChild===null)return{v:node.value,l:null,r:null,u:false};if(node.leftChild===null||node.rightChild===null)return null;const left=build(node.leftChild),right=build(node.rightChild);if(!left||!right)return null;return{v:node.value,l:left,r:right,u:false};}return build(roots[0].id);}
@@ -335,7 +479,7 @@ function doVerify(){
     if(!userTree){toast('Estructura incompleta. Revisa las conexiones (cada operador necesita 2 hijos).','err');return;}
     const userStr=treeFull(userTree),correctStr=treeFull(exprTree);
     if(userStr===correctStr){
-        state='traversing';travPhase='pre';
+        state='traversing';travPhase='pre';travSequence=[];
         showResult(true,'Arbol correcto! Ahora completa los recorridos.');
         disableBuilder();startTraversalChallenge();
     } else {
@@ -343,60 +487,355 @@ function doVerify(){
     }
 }
 
-/* ========== FASE 2: RECORRIDOS ========== */
+/* ========== FASE 2: RECORRIDOS CON BOTONES ========== */
 let travPhase='pre';
+let travSequence=[];  // Array de valores añadidos por el usuario
 
-function startTraversalChallenge(){document.getElementById('travChallenge').style.display='';document.getElementById('travInput').value='';document.getElementById('travInput').focus();updateTravUI();}
+// Obtener todos los valores únicos del árbol para los botones
+function getTravTokens(){
+    const vals=[];function traverse(n){if(!n)return;vals.push(n.v);traverse(n.l);traverse(n.r);}
+    traverse(exprTree);
+    // Mantener orden: operadores primero, luego funciones, luego números, luego letras
+    const seen=new Set();const result=[];
+    for(const v of vals){if(!seen.has(v)){seen.add(v);result.push(v);}}
+    return result.sort((a,b)=>{const o=(v)=>{if(['+','\u2212','*','/','^'].includes(v))return 0;if(FUNCS.has(v))return 1;if(/^\d+/.test(v))return 3;return 2;};return o(a)-o(b)||(a<b?-1:1);});
+}
+
+function startTraversalChallenge(){
+    travSequence=[];
+    const tc=document.getElementById('travChallenge');tc.style.display='';
+    renderTravTokenButtons();
+    renderTravSequence();
+    updateTravUI();
+}
+
+function renderTravTokenButtons(){
+    const container=document.getElementById('travTokenBtns');
+    container.innerHTML='';
+    if(!exprTree)return;
+    const tokens=getTravTokens();
+    for(const val of tokens){
+        const col=nColByVal(val);
+        const btn=document.createElement('button');
+        btn.className='trav-tok-btn';
+        btn.style.color=col.c;
+        btn.style.borderColor=col.c+'55';
+        btn.style.background=col.bg;
+        btn.textContent=val;
+        btn.setAttribute('data-val',val);
+        btn.addEventListener('click',()=>{
+            if(state!=='traversing')return;
+            addTravToken(val);
+        });
+        container.appendChild(btn);
+    }
+}
+
+function addTravToken(val){
+    travSequence.push(val);
+    renderTravSequence();
+}
+
+function renderTravSequence(){
+    const area=document.getElementById('travSequenceArea');
+    const placeholder=document.getElementById('travSeqPlaceholder');
+    const countEl=document.getElementById('travSeqCount');
+
+    // Limpiar área (excepto placeholder)
+    area.innerHTML='';
+    area.className='trav-sequence-area';
+
+    if(travSequence.length===0){
+        const ph=document.createElement('span');
+        ph.className='trav-seq-placeholder';
+        ph.textContent='Pulsa los tokens de abajo para añadirlos...';
+        area.appendChild(ph);
+        if(countEl)countEl.textContent='';
+        return;
+    }
+
+    for(let i=0;i<travSequence.length;i++){
+        const val=travSequence[i];
+        const col=nColByVal(val);
+
+        // Flecha entre tokens (excepto antes del primero)
+        if(i>0){
+            const arrow=document.createElement('span');
+            arrow.className='trav-seq-arrow';
+            arrow.textContent='→';
+            area.appendChild(arrow);
+        }
+
+        const chip=document.createElement('span');
+        chip.className='trav-seq-token';
+        chip.style.color=col.c;
+        chip.style.background=col.bg;
+        chip.style.border='1.5px solid '+col.c+'44';
+        chip.textContent=val;
+        chip.title='Clic para eliminar';
+        // Clic en token de la secuencia = eliminar ese y los siguientes
+        chip.addEventListener('click',()=>{
+            travSequence=travSequence.slice(0,i);
+            renderTravSequence();
+        });
+        area.appendChild(chip);
+    }
+
+    // Contador
+    const totalNodes=ncnt(exprTree);
+    if(countEl)countEl.textContent=travSequence.length+' / '+totalNodes+' nodos';
+}
 
 function updateTravUI(){
-    const $input=document.getElementById('travInput'),$title=document.getElementById('travTitle'),$hint=document.getElementById('travHint');
+    const $title=document.getElementById('travTitle'),$hint=document.getElementById('travHint');
     const $stepPre=document.getElementById('stepPre'),$stepIn=document.getElementById('stepIn'),$stepPost=document.getElementById('stepPost');
     [$stepPre,$stepIn,$stepPost].forEach(el=>{el.classList.remove('active','done');el.querySelector('i').className='fas fa-circle';});
-    if(travPhase==='pre'){$stepPre.classList.add('active');$stepPre.querySelector('i').className='fas fa-arrow-right';$title.textContent='Escribe el recorrido en Preorden (RLI)';$hint.textContent='Raiz \u2192 Izquierda \u2192 Derecha. Separa con espacios.';}
-    else if(travPhase==='in'){$stepPre.classList.add('done');$stepPre.querySelector('i').className='fas fa-check';$stepIn.classList.add('active');$stepIn.querySelector('i').className='fas fa-arrow-right';$title.textContent='Escribe el recorrido en Inorden (LIR)';$hint.textContent='Izquierda \u2192 Raiz \u2192 Derecha. Separa con espacios.';}
-    else if(travPhase==='post'){$stepPre.classList.add('done');$stepPre.querySelector('i').className='fas fa-check';$stepIn.classList.add('done');$stepIn.querySelector('i').className='fas fa-check';$stepPost.classList.add('active');$stepPost.querySelector('i').className='fas fa-arrow-right';$title.textContent='Escribe el recorrido en Postorden (LDR)';$hint.textContent='Izquierda \u2192 Derecha \u2192 Raiz. Separa con espacios.';}
-    $input.value='';$input.className='trav-input';$input.disabled=false;$input.focus();
+    travSequence=[];
+    renderTravSequence();
+    document.getElementById('travSequenceArea').className='trav-sequence-area';
+    if(travPhase==='pre'){
+        $stepPre.classList.add('active');$stepPre.querySelector('i').className='fas fa-arrow-right';
+        $title.textContent='Construye el recorrido en Preorden (RLI)';
+        $hint.textContent='Pulsa los tokens en orden: Raíz → Izquierda → Derecha';
+    } else if(travPhase==='in'){
+        $stepPre.classList.add('done');$stepPre.querySelector('i').className='fas fa-check';
+        $stepIn.classList.add('active');$stepIn.querySelector('i').className='fas fa-arrow-right';
+        $title.textContent='Construye el recorrido en Inorden (LIR)';
+        $hint.textContent='Pulsa los tokens en orden: Izquierda → Raíz → Derecha';
+    } else if(travPhase==='post'){
+        $stepPre.classList.add('done');$stepPre.querySelector('i').className='fas fa-check';
+        $stepIn.classList.add('done');$stepIn.querySelector('i').className='fas fa-check';
+        $stepPost.classList.add('active');$stepPost.querySelector('i').className='fas fa-arrow-right';
+        $title.textContent='Construye el recorrido en Postorden (LDR)';
+        $hint.textContent='Pulsa los tokens en orden: Izquierda → Derecha → Raíz';
+    }
 }
 
 function checkTraversal(){
     if(state!=='traversing'||travPhase==='done')return;
-    const $input=document.getElementById('travInput');const userVal=normalizeTrav($input.value);
-    let correctVal='';if(travPhase==='pre')correctVal=normalizeTrav(tS(preO(exprTree)));else if(travPhase==='in')correctVal=normalizeTrav(tS(inO(exprTree)));else if(travPhase==='post')correctVal=normalizeTrav(tS(postO(exprTree)));
+    const userVal=normalizeTrav(travSequence.join(' → ').replace(/→/g,' '));
+    let correctVal='';
+    if(travPhase==='pre')correctVal=normalizeTrav(tS(preO(exprTree)));
+    else if(travPhase==='in')correctVal=normalizeTrav(tS(inO(exprTree)));
+    else if(travPhase==='post')correctVal=normalizeTrav(tS(postO(exprTree)));
+
+    const area=document.getElementById('travSequenceArea');
     if(userVal===correctVal){
-        $input.className='trav-input correct';toast('Correcto!','ok');
-        if(travPhase==='pre')travPhase='in';else if(travPhase==='in')travPhase='post';else if(travPhase==='post')travPhase='done';
-        if(travPhase==='done'){finishChallenge();}else{setTimeout(()=>updateTravUI(),600);}
+        area.classList.add('correct');
+        toast('¡Correcto!','ok');
+        if(travPhase==='pre')travPhase='in';
+        else if(travPhase==='in')travPhase='post';
+        else if(travPhase==='post')travPhase='done';
+        if(travPhase==='done'){finishChallenge();}
+        else{setTimeout(()=>updateTravUI(),700);}
     } else {
-        $input.className='trav-input wrong';$input.classList.add('shake');toast('Recorrido incorrecto. Revisa el orden.','err');setTimeout(()=>{$input.classList.remove('shake');$input.className='trav-input';},500);
+        area.classList.add('wrong');
+        area.classList.add('shake');
+        toast('Recorrido incorrecto. Revisa el orden.','err');
+        setTimeout(()=>{area.classList.remove('shake','wrong');},600);
     }
 }
 
 function finishChallenge(){
-    state='verified';stopTmr();stats.done++;stats.times.push(elapsed);if(stats.best===null||elapsed<stats.best)stats.best=elapsed;updSt();
-    document.getElementById('travChallenge').style.display='none';showResult(true,'Desafio completado. Excelente!');showSections(exprTree);spawnConfetti();
-    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bn.style.display='';
+    state='props';stopTmr();
+    document.getElementById('travChallenge').style.display='none';
+    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bNxt.style.display='none';
+    startFase3();
 }
 
+/* ========== FASE 3: PROPIEDADES ========== */
+// Funciones auxiliares
+function altura(n){return n?dep(n)-1:0;}  // altura = profundidad - 1 (raíz en nivel 0)
+function numNiveles(n){return dep(n);}     // niveles = profundidad
+function numAristas(n){return ncnt(n)-1;}  // aristas = nodos - 1
+function numOperadores(n){return n?((['+','\u2212','*','/','^'].includes(n.v)||FUNCS.has(n.v))?1:0)+numOperadores(n.l)+numOperadores(n.r):0;}
+
+const PROP_DEFS=[
+    {id:'altura',   label:'Altura',              icon:'fa-ruler-vertical', color:'#22d3ee', fn:(t)=>altura(t)},
+    {id:'hojas',    label:'Hojas (nodos hoja)',   icon:'fa-leaf',           color:'#22c55e', fn:(t)=>lfc(t)},
+    {id:'nodos',    label:'Nodos totales',        icon:'fa-circle-nodes',   color:'#14b8a6', fn:(t)=>ncnt(t)},
+    {id:'operadores',label:'Nodos operadores',   icon:'fa-plus-minus',     color:'#a78bfa', fn:(t)=>numOperadores(t)},
+    {id:'niveles',  label:'Niveles',              icon:'fa-layer-group',    color:'#fbbf24', fn:(t)=>numNiveles(t)},
+    {id:'aristas',  label:'Aristas (ramas)',      icon:'fa-link',           color:'#fb7185', fn:(t)=>numAristas(t)},
+];
+
+let propState={};  // { id: { answer: null|number, userInput:'', status:'pending'|'correct'|'wrong'|'revealed' } }
+let propActive=null;  // id de la tarjeta activa
+
+function startFase3(){
+    propState={};
+    propActive=null;
+    for(const p of PROP_DEFS) propState[p.id]={answer:p.fn(exprTree),userInput:'',status:'pending'};
+    renderPropGrid();
+    renderPropProgress();
+    document.getElementById('fase3Challenge').style.display='';
+    // Activar la primera tarjeta
+    setActiveProp(PROP_DEFS[0].id);
+}
+
+function renderPropGrid(){
+    const grid=document.getElementById('propGrid');
+    grid.innerHTML='';
+    for(const p of PROP_DEFS){
+        const s=propState[p.id];
+        const card=document.createElement('div');
+        card.className='prop-card'+(propActive===p.id?' active':'')+(s.status==='correct'?' correct':s.status==='wrong'?' wrong':s.status==='revealed'?' solved':'');
+        card.setAttribute('data-prop',p.id);
+        card.innerHTML=`
+            <div class="prop-label"><i class="fas ${p.icon} mr-1" style="color:${p.color}"></i>${p.label}</div>
+            <div class="prop-display${s.userInput===''&&s.status==='pending'?' empty':''} ${s.status==='correct'?'correct':s.status==='wrong'?'wrong':''}" id="propDisp_${p.id}">
+                ${s.status==='correct'||s.status==='revealed' ? '<i class="fas fa-check-circle mr-1" style="font-size:.85rem"></i>'+s.answer : (s.userInput||'···')}
+            </div>`;
+        if(s.status==='pending'||s.status==='wrong'){
+            card.style.cursor='pointer';
+            card.addEventListener('click',()=>setActiveProp(p.id));
+        }
+        grid.appendChild(card);
+    }
+}
+
+function renderPropProgress(){
+    const bar=document.getElementById('propProgress');
+    bar.innerHTML='';
+    for(const p of PROP_DEFS){
+        const s=propState[p.id];
+        const pip=document.createElement('div');
+        pip.className='prop-pip'+(propActive===p.id?' active':'')+((s.status==='correct'||s.status==='revealed')?' done':'');
+        bar.appendChild(pip);
+    }
+}
+
+function setActiveProp(id){
+    const s=propState[id];
+    if(s.status==='correct'||s.status==='revealed')return;
+    propActive=id;
+    renderPropGrid();
+    renderPropProgress();
+}
+
+function propNumpadPress(val){
+    if(!propActive)return;
+    const s=propState[propActive];
+    if(s.status==='correct'||s.status==='revealed')return;
+
+    if(val==='del'){
+        s.userInput=s.userInput.slice(0,-1);
+    } else if(val==='clear'){
+        s.userInput='';
+        s.status='pending';
+    } else if(val==='ok'){
+        checkPropAnswer();
+        return;
+    } else if(val==='sol'){
+        s.status='revealed';
+        s.userInput='';
+        propActive=null;
+        renderPropGrid();renderPropProgress();
+        checkAllPropsComplete();
+        return;
+    } else if(val==='skip'){
+        // Pasar a la siguiente pendiente
+        const pending=PROP_DEFS.filter(p=>propState[p.id].status==='pending'||propState[p.id].status==='wrong');
+        if(pending.length>1){
+            const idx=pending.findIndex(p=>p.id===propActive);
+            const next=pending[(idx+1)%pending.length];
+            setActiveProp(next.id);
+        }
+        return;
+    } else {
+        if(s.userInput.length<4) s.userInput+=val;
+    }
+    s.status='pending';
+    renderPropGrid();renderPropProgress();
+}
+
+function checkPropAnswer(){
+    if(!propActive)return;
+    const s=propState[propActive];
+    const user=parseInt(s.userInput,10);
+    if(isNaN(user)){toast('Introduce un número primero','err');return;}
+    if(user===s.answer){
+        s.status='correct';
+        toast('¡Correcto! '+getPropLabel(propActive)+' = '+s.answer,'ok');
+        propActive=null;
+        renderPropGrid();renderPropProgress();
+        // Activar automáticamente la siguiente pendiente
+        const next=PROP_DEFS.find(p=>propState[p.id].status==='pending'||propState[p.id].status==='wrong');
+        if(next) setTimeout(()=>setActiveProp(next.id),400);
+        checkAllPropsComplete();
+    } else {
+        s.status='wrong';
+        toast('Incorrecto. '+getPropLabel(propActive)+' no es '+user,'err');
+        const card=document.querySelector('[data-prop="'+propActive+'"]');
+        if(card){card.classList.add('shake');setTimeout(()=>card.classList.remove('shake'),500);}
+        renderPropGrid();renderPropProgress();
+    }
+}
+
+function getPropLabel(id){return(PROP_DEFS.find(p=>p.id===id)||{label:id}).label;}
+
+function checkAllPropsComplete(){
+    const allDone=PROP_DEFS.every(p=>propState[p.id].status==='correct'||propState[p.id].status==='revealed');
+    if(!allDone)return;
+    const allCorrect=PROP_DEFS.every(p=>propState[p.id].status==='correct');
+    setTimeout(()=>{
+        document.getElementById('fase3Challenge').style.display='none';
+        stats.done++;stats.times.push(elapsed);if(stats.best===null||elapsed<stats.best)stats.best=elapsed;updSt();
+        if(allCorrect){showResult(true,'¡Desafío completado! ¡Perfecto en los 3 niveles!');spawnConfetti();}
+        else{showResult(false,'Fase 3 completada. Algunas propiedades necesitaban ayuda.');}
+        showSections(exprTree);
+        $bNxt.style.display='';
+    },600);
+}
+
+// Teclado numérico — eventos
+document.querySelectorAll('#numpad .numpad-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>propNumpadPress(btn.dataset.n));
+});
+
 document.getElementById('bTravCheck').addEventListener('click',checkTraversal);
-document.getElementById('travInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();checkTraversal();}});
+
+// Borrar último token
+document.getElementById('bTravUndo').addEventListener('click',()=>{
+    if(travSequence.length>0){travSequence.pop();renderTravSequence();}
+});
+
+// Limpiar secuencia
+document.getElementById('bTravClearSeq').addEventListener('click',()=>{
+    travSequence=[];renderTravSequence();
+    document.getElementById('travSequenceArea').className='trav-sequence-area';
+});
 
 /* ========== VER SOLUCION EN FASE 2 ========== */
 document.getElementById('bTravSol').addEventListener('click',()=>{
     if(state!=='traversing')return;
     state='solution_trav';stopTmr();
-    const $input=document.getElementById('travInput');
-    let correctVal='';if(travPhase==='pre')correctVal=normalizeTrav(tS(preO(exprTree)));else if(travPhase==='in')correctVal=normalizeTrav(tS(inO(exprTree)));else if(travPhase==='post')correctVal=normalizeTrav(tS(postO(exprTree)));
-    $input.value=correctVal;$input.className='trav-input correct';$input.disabled=true;
-    document.getElementById('bTravCheck').style.display='none';document.getElementById('bTravSol').style.display='none';
+
+    let correctArr=[];
+    if(travPhase==='pre')correctArr=preO(exprTree).map(n=>n.v);
+    else if(travPhase==='in')correctArr=inO(exprTree).map(n=>n.v);
+    else if(travPhase==='post')correctArr=postO(exprTree).map(n=>n.v);
+
+    travSequence=correctArr;
+    renderTravSequence();
+    document.getElementById('travSequenceArea').classList.add('correct');
+
+    // Deshabilitar botones de tokens y acciones
+    document.getElementById('bTravCheck').style.display='none';
+    document.getElementById('bTravSol').style.display='none';
+    document.getElementById('bTravUndo').style.display='none';
+    document.getElementById('bTravClearSeq').style.display='none';
+    document.querySelectorAll('.trav-tok-btn').forEach(b=>{b.disabled=true;b.style.opacity='.3';});
+
     showResult(false,'Has visto la solucion. Estudia los recorridos.');showSections(exprTree);
-    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bn.style.display='';
-    setTimeout(()=>{document.getElementById('travChallenge').style.display='none';},2500);
+    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bNxt.style.display='';
+    setTimeout(()=>{document.getElementById('travChallenge').style.display='none';},2800);
 });
 
 /* ========== SOLUCION FASE 1 ========== */
 function doShowSolution(){
     if(state!=='building')return;state='solution';stopTmr();showingSolution=true;layout(exprTree);animSolution();showSections(exprTree);
-    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bn.style.display='';
+    $bCheck.style.display='none';$bSol.style.display='none';$bClear.style.display='none';$bNxt.style.display='';
     showResult(false,'Rendicion. Esta es la solucion correcta.');disableBuilder();document.getElementById('travChallenge').style.display='none';
 }
 
@@ -413,7 +852,7 @@ const $et=document.getElementById('exprText'),$tw=document.getElementById('timer
 const $td=document.getElementById('tDot'),$tt=document.getElementById('tTxt');
 const $bg=document.getElementById('bGen'),$bCheck=document.getElementById('bCheck');
 const $bSol=document.getElementById('bSol'),$bClear=document.getElementById('bClear');
-const $bn=document.getElementById('bNxt');
+const $bNxt=document.getElementById('bNxt');
 
 function fmtT(ms){const s=Math.floor(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function updSt(){document.getElementById('sD').textContent=stats.done;document.getElementById('sB').textContent=stats.best!==null?fmtT(stats.best):'\u2014';document.getElementById('sA').textContent=stats.times.length?fmtT(stats.times.reduce((a,b)=>a+b,0)/stats.times.length):'\u2014';}
@@ -430,11 +869,16 @@ function doGen(){
     if(!ok){toast('Error al generar. Intenta de nuevo.','err');return;}
     $et.textContent=exprStr;$et.classList.remove('expr-anim');void $et.offsetWidth;$et.classList.add('expr-anim');
     $tw.style.display='';$tt.textContent='0:00';startTmr();
-    $bg.style.display='none';$bCheck.style.display='';$bSol.style.display='';$bClear.style.display='';$bn.style.display='none';
-    document.getElementById('paletteWrap').style.display='';document.getElementById('canvasTools').style.display='';document.getElementById('cvsWrap').style.display='';document.getElementById('instrPanel').style.display='';enableBuilder();
-    builderNodes=[];nextBId=0;selectedId=null;connectFromId=null;placingVal=null;toolMode='select';travPhase='pre';
+    $bg.style.display='none';$bCheck.style.display='';$bSol.style.display='';$bClear.style.display='';$bNxt.style.display='none';
+    document.getElementById('paletteWrap').style.display='';document.getElementById('canvasTools').style.display='';document.getElementById('cvsWrap').style.display='';enableBuilder();
+    builderNodes=[];nextBId=0;selectedId=null;connectFromId=null;placingVal=null;toolMode='select';travPhase='pre';travSequence=[];propState={};propActive=null;
+    document.getElementById('fase3Challenge').style.display='none';
     setupPalette(exprTree);updateToolbar();sizeCanvas();draw();updateNodeCount();
-    document.getElementById('bTravCheck').style.display='';document.getElementById('bTravSol').style.display='';
+    // Resetear botones fase 2
+    document.getElementById('bTravCheck').style.display='';
+    document.getElementById('bTravSol').style.display='';
+    document.getElementById('bTravUndo').style.display='';
+    document.getElementById('bTravClearSeq').style.display='';
 }
 
 function doNext(){if(tmrID)stopTmr();doGen();}
@@ -443,8 +887,8 @@ let toastTm=null;
 function toast(m,type){const el=document.getElementById('toast');el.textContent=m;el.className='toast toast-'+(type||'err');el.classList.add('show');if(toastTm)clearTimeout(toastTm);toastTm=setTimeout(()=>el.classList.remove('show'),3500);}
 
 /* ========== EVENTOS ========== */
- $bg.addEventListener('click',doGen);$bCheck.addEventListener('click',doVerify);$bSol.addEventListener('click',doShowSolution);
- $bClear.addEventListener('click',()=>{if(state==='building')clearBuilder();});$bn.addEventListener('click',doNext);
+$bg.addEventListener('click',doGen);$bCheck.addEventListener('click',doVerify);$bSol.addEventListener('click',doShowSolution);
+$bClear.addEventListener('click',()=>{if(state==='building')clearBuilder();});$bNxt.addEventListener('click',doNext);
 
 document.querySelectorAll('.diff-pill').forEach(b=>{
     b.addEventListener('click',()=>{
@@ -454,12 +898,11 @@ document.querySelectorAll('.diff-pill').forEach(b=>{
     });
 });
 
-let instrOpen=true;document.getElementById('instrToggle').addEventListener('click',()=>{instrOpen=!instrOpen;document.getElementById('instrBody').style.display=instrOpen?'':'none';document.getElementById('instrIcon').className='fas fa-chevron-'+(instrOpen?'up':'down');});
 
 document.addEventListener('keydown',e=>{
     if(e.target.tagName==='INPUT')return;
     if(e.code==='Space'&&(state==='idle'||state==='verified'||state==='solution'||state==='solution_trav')){e.preventDefault();doNext();}
-    if(e.code==='Enter'){e.preventDefault();if(state==='building')doVerify();else if(state==='idle')doGen();else doNext();}
+    if(e.code==='Enter'){e.preventDefault();if(state==='building')doVerify();else if(state==='idle')doGen();else if(state==='traversing')checkTraversal();else doNext();}
     if((e.code==='Delete'||e.code==='Backspace')&&state==='building'&&selectedId!==null){e.preventDefault();removeBNode(selectedId);}
     if(e.code==='Escape'){placingVal=null;connectFromId=null;selectedId=null;renderPalette();updateStatus();draw();}
 });
