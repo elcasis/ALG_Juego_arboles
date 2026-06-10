@@ -645,8 +645,8 @@ function finishChallenge(){
 
 /* ========== FASE 3: PROPIEDADES ========== */
 // Funciones auxiliares
-function altura(n){return n?dep(n)-1:0;}  // altura = profundidad - 1 (raíz en nivel 0)
-function numNiveles(n){return dep(n);}     // niveles = profundidad
+function altura(n){return dep(n);}         // altura = niveles (raíz en nivel 1)
+function numNiveles(n){return dep(n);}     // niveles = profundidad (raíz en nivel 1)
 function numAristas(n){return ncnt(n)-1;}  // aristas = nodos - 1
 function numOperadores(n){return n?((['+','\u2212','*','/','^'].includes(n.v)||FUNCS.has(n.v))?1:0)+numOperadores(n.l)+numOperadores(n.r):0;}
 
